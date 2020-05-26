@@ -4,28 +4,10 @@ using UnityEngine;
 
 public class Grill : MonoBehaviour
 {
-    //Cameras
-    public GameObject menuCamera;
-    public GameObject gameplayCamera;
-
-    // Start is called before the first frame update
-    void Start()
+    void OnCollisionEnter2D(Collision2D collision)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    void OnCollisionEnter2D(Collision2D col)
-    {
-        if(col.gameObject.name == "LowerBun") {
-            //Change cameras
-            menuCamera.SetActive(false);
-            gameplayCamera.SetActive(true);
+        if((collision.gameObject.tag == "Bun")&&(!GameController.gameStarted)) {
+            GameEvents.current.StartGame();
         }        
     }
 }
