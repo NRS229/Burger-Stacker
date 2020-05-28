@@ -8,40 +8,32 @@ public class GameController : MonoBehaviour
     public static bool pause;
     public static bool introStarted;
     public static bool gameStarted;
-    //Rigidbodies
-    public Rigidbody2D rbBunUp;
-    public Rigidbody2D rbMeat;
-    public Rigidbody2D rbBunDown;
-    //GameObjects
-    public GameObject userInterfaceItems;
     //Cameras
     public GameObject menuCamera;
     public GameObject gameplayCamera;
+    //Instantiation
+    float instantiateY = -3.6f;
+    private GameObject nextTopping;
+    public GameObject newToppingPrefab;
+    public Sprite[] toppingSprites;
+
 
     void Start()
     {
-        GameEvents.current.onStartGame += OnStartGame;
+        //Subscribe to events
+        GameEvents.current.onStartGame  += OnStartGame;
+        GameEvents.current.onStartIntro += OnStartIntro;
+        GameEvents.current.onPauseGame  += OnPauseGame;
+        GameEvents.current.onResumeGame += OnResumeGame;
+        GameEvents.current.onInstantiateTopping += OnInstantiateTopping;
+        //Initializing bools
         pause = true;
+        introStarted = false;
+        gameStarted = false;
     }
 
     void Update()
     {
-        //Detect a touch
-        if (Input.touchCount > 0 || Input.GetKeyDown("space")){
-            if(!introStarted){
-                //Start the intro
-                introStarted = true;
-                Debug.Log("Starting the intro");
-                //Burger jumps to grill
-                rbBunUp.AddForce(new Vector2(-100f, 300));
-                rbMeat.AddForce(new Vector2(-101f, 300));
-                rbBunDown.AddForce(new Vector2(-102f, 300));
-                //Deactivate UI
-                userInterfaceItems.SetActive(false);
-            }
-            pause = false;
-        }
-
         if(pause){
             Time.timeScale = 0f;
         }else{
@@ -59,10 +51,35 @@ public class GameController : MonoBehaviour
         }
     }
 
+    private void OnPauseGame(){
+        pause=true;
+        Debug.Log("Pause game");
+    }
+
+    private void OnResumeGame(){
+        pause=false;
+        Debug.Log("Resume game");
+    }
+
+    private void OnStartIntro(){
+        introStarted = true;
+        Debug.Log("Starting the intro");
+    }
+
+    private void OnInstantiateTopping(){
+        Debug.Log("Instantiating topping");
+        //X and Y
+        float instantiateX = 10f;
+        instantiateY +=0.283810716f; //Boxcollider y * Scale y
+        //Instantiation
+        nextTopping = Instantiate(newToppingPrefab, new Vector2(instantiateX, instantiateY), Quaternion.identity) as GameObject;
+        
+    }
+
     private void changeCamera(){
         //Change cameras
-        menuCamera.SetActive(false);
-        gameplayCamera.SetActive(true);
+        menuCamera.SetActive(!menuCamera.activeSelf);
+        gameplayCamera.SetActive(!gameplayCamera.activeSelf);
     }
 
 }
