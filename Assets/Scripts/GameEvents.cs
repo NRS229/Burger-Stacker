@@ -67,4 +67,12 @@ public class GameEvents : MonoBehaviour
         }
     }
 
+    //Event onGameOver
+    public event Action onGameOver;
+    public void GameOver(){
+        if(onGameOver != null){
+            onGameOver();
+        }
+    }
+
 }

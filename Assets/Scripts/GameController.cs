@@ -26,6 +26,7 @@ public class GameController : MonoBehaviour
         GameEvents.current.onPauseGame  += OnPauseGame;
         GameEvents.current.onResumeGame += OnResumeGame;
         GameEvents.current.onInstantiateTopping += OnInstantiateTopping;
+        GameEvents.current.onGameOver += OnGameOver;
         //Initializing bools
         pause = true;
         introStarted = false;
@@ -69,11 +70,38 @@ public class GameController : MonoBehaviour
     private void OnInstantiateTopping(){
         Debug.Log("Instantiating topping");
         //X and Y
-        float instantiateX = 10f;
+        float instantiateX = Random.Range(3, 8);
         instantiateY +=0.283810716f; //Boxcollider y * Scale y
         //Instantiation
         nextTopping = Instantiate(newToppingPrefab, new Vector2(instantiateX, instantiateY), Quaternion.identity) as GameObject;
-        
+        //Randomize the topping sprite
+        int nextToppingSpriteRandom = Random.Range(1, 5);
+        switch (nextToppingSpriteRandom)
+        {
+            case 1:
+                nextTopping.GetComponent<SpriteRenderer>().sprite = toppingSprites[0];
+                nextTopping.name = "Meat";
+                break;
+
+            case 2:
+                nextTopping.GetComponent<SpriteRenderer>().sprite = toppingSprites[1];
+                nextTopping.name = "Cheese";
+                break;
+
+            case 3:
+                nextTopping.GetComponent<SpriteRenderer>().sprite = toppingSprites[2];
+                nextTopping.name = "Lettuce";
+                break;
+
+            case 4:
+                nextTopping.GetComponent<SpriteRenderer>().sprite = toppingSprites[3];
+                nextTopping.name = "Tomato";
+                break;
+        }
+    }
+
+    private void OnGameOver(){
+        Debug.Log("Game Over");
     }
 
     private void changeCamera(){
