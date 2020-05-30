@@ -13,7 +13,6 @@ public class Grill : MonoBehaviour
         //Gameover when some part of the burger touches the floor
         if(((collision.gameObject.tag == "Bun")||(collision.gameObject.tag == "Topping"))&&(GameController.gameStarted)) {
             if(collision.gameObject.name != "LowerBun"){
-                Debug.Log(collision.gameObject.name);
                 GameEvents.current.GameOver();
             }
         }        

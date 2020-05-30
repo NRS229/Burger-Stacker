@@ -13,6 +13,7 @@ public class Buns : MonoBehaviour
     private bool jump;
     private bool isAligned;
     private bool hasCollectedTopping;
+    public static bool isUpperBunTouchingTopping;
 
     void Start()
     {
@@ -33,13 +34,12 @@ public class Buns : MonoBehaviour
                 GameEvents.current.StartIntro();
                 //Burger jumps to grill
                 jumpToGrill = true;
-                //Disable UI
-                GameEvents.current.DisableUI();
                 //Unpause game
                 GameEvents.current.ResumeGame();
             }else{
-                //After first touch
-                jump = true;
+                if(isUpperBunTouchingTopping){
+                    jump = true;
+                }
             }
         }
     }

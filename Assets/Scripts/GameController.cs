@@ -102,6 +102,7 @@ public class GameController : MonoBehaviour
 
     private void OnGameOver(){
         Debug.Log("Game Over");
+        GameEvents.current.PauseGame();
     }
 
     private void changeCamera(){

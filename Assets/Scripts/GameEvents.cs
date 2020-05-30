@@ -19,22 +19,6 @@ public class GameEvents : MonoBehaviour
         }
     }
 
-    //Event onDisableUI
-    public event Action onDisableUI;
-    public void DisableUI(){
-        if(onDisableUI != null){
-            onDisableUI();
-        }
-    }
-
-    //Event onEnableUI
-    public event Action onEnableUI;
-    public void EnableUI(){
-        if(onEnableUI != null){
-            onEnableUI();
-        }
-    }
-
     //Event onPauseGame
     public event Action onPauseGame;
     public void PauseGame(){
