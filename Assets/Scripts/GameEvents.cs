@@ -59,4 +59,12 @@ public class GameEvents : MonoBehaviour
         }
     }
 
+    //Event onIncreaseScore
+    public event Action onIncreaseScore;
+    public void IncreaseScore(){
+        if(onIncreaseScore != null){
+            onIncreaseScore();
+        }
+    }
+
 }

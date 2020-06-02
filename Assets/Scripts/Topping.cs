@@ -21,6 +21,8 @@ public class Topping : MonoBehaviour
     {
         if (collision.gameObject.tag == "Bun" & !partOfBurger)
         {
+            //Increase score
+            GameEvents.current.IncreaseScore();
             //Become part of burger
             gameObject.transform.SetParent(GameObject.Find("Burger").transform);
             partOfBurger = true;

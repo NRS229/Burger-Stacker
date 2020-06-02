@@ -14,6 +14,9 @@ public class UI : MonoBehaviour
     private GameObject gameplay;
     private GameObject pauseMenu;
     private GameObject gameOverMenu;
+    //Score
+    public Text scoreText;
+    public Text highScoreText;
 
 
     void Start()
@@ -27,6 +30,12 @@ public class UI : MonoBehaviour
         gameplay = gameObject.transform.Find("Gameplay").gameObject;
         pauseMenu = gameObject.transform.Find("PauseMenu").gameObject;
         gameOverMenu = gameObject.transform.Find("GameOverMenu").gameObject;
+        //Set the highscore
+        highScoreText.text = PlayerPrefs.GetInt("Hishscore", 0).ToString();
+    }
+
+    void Update(){
+        scoreText.text = GameController.score.ToString();
     }
 
     private void displayMainMenu(){
@@ -55,6 +64,14 @@ public class UI : MonoBehaviour
         gameplay.SetActive(false);
         pauseMenu.SetActive(false);
         gameOverMenu.SetActive(true);
+    }
+
+    public void playPauseBtn(){
+        if(GameController.pause){
+            GameEvents.current.ResumeGame();
+        }else{
+            GameEvents.current.PauseGame();
+        }
     }
 
 }

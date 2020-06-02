@@ -16,6 +16,8 @@ public class GameController : MonoBehaviour
     private GameObject nextTopping;
     public GameObject newToppingPrefab;
     public Sprite[] toppingSprites;
+    //Score
+    public static int score = 0;
 
 
     void Start()
@@ -27,6 +29,7 @@ public class GameController : MonoBehaviour
         GameEvents.current.onResumeGame += OnResumeGame;
         GameEvents.current.onInstantiateTopping += OnInstantiateTopping;
         GameEvents.current.onGameOver += OnGameOver;
+        GameEvents.current.onIncreaseScore += OnIncreaseScore;
         //Initializing bools
         pause = true;
         introStarted = false;
@@ -46,7 +49,6 @@ public class GameController : MonoBehaviour
         if(!gameStarted){
             gameStarted = true;
             changeCamera();
-            Debug.Log("Starting the game");
         }else{
             Debug.Log("The game has already started");
         }
@@ -54,21 +56,17 @@ public class GameController : MonoBehaviour
 
     private void OnPauseGame(){
         pause=true;
-        Debug.Log("Pause game");
     }
 
     private void OnResumeGame(){
         pause=false;
-        Debug.Log("Resume game");
     }
 
     private void OnStartIntro(){
         introStarted = true;
-        Debug.Log("Starting the intro");
     }
 
     private void OnInstantiateTopping(){
-        Debug.Log("Instantiating topping");
         //X and Y
         float instantiateX = Random.Range(3, 8);
         instantiateY +=0.283810716f; //Boxcollider y * Scale y
@@ -101,8 +99,14 @@ public class GameController : MonoBehaviour
     }
 
     private void OnGameOver(){
-        Debug.Log("Game Over");
         GameEvents.current.PauseGame();
+        if(score > PlayerPrefs.GetInt("Hishscore", 0)){
+            PlayerPrefs.SetInt("Hishscore", score);
+        }
+    }
+
+    private void OnIncreaseScore(){
+        score += 1;
     }
 
     private void changeCamera(){
