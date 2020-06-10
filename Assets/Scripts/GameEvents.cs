@@ -11,6 +11,14 @@ public class GameEvents : MonoBehaviour
         current = this;
     }
 
+    //Event onClick
+    public event Action onClick;
+    public void Click(){
+        if(onClick != null){
+            onClick();
+        }
+    }
+
     //Event onStartGame
     public event Action onStartGame;
     public void StartGame(){

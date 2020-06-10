@@ -26,8 +26,9 @@ public class Topping : MonoBehaviour
             //Become part of burger
             gameObject.transform.SetParent(GameObject.Find("Burger").transform);
             partOfBurger = true;
-            //Add Rigidbody
-            gameObject.AddComponent<Rigidbody2D>();
+            //Unfreeze y position
+            gameObject.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+            gameObject.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
             //Instantiate topping
             GameEvents.current.InstantiateTopping();
         }

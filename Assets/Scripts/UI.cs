@@ -5,17 +5,15 @@ using UnityEngine.UI;
 
 public class UI : MonoBehaviour
 {
-    //Play - pause button
-    private Button pauseResumeButton;
-    public Sprite pauseSprite;
-    public Sprite playSprite;
     //Gameobject
+    public GameObject logo;
     private GameObject mainMenu;
     private GameObject gameplay;
     private GameObject pauseMenu;
     private GameObject gameOverMenu;
     //Score
-    public Text scoreText;
+    public Text scoreTextGameplay;
+    public Text scoreTextPause;
     public Text highScoreText;
 
 
@@ -24,8 +22,9 @@ public class UI : MonoBehaviour
         //Subscribe to events
         GameEvents.current.onStartIntro += displayGameplay;
         GameEvents.current.onPauseGame += displayPauseMenu;
+        GameEvents.current.onResumeGame += displayGameplay;
+        GameEvents.current.onGameOver += displayGameOverMenu;
         //Set the GameObjects
-        pauseResumeButton = gameObject.transform.Find("Gameplay").gameObject.transform.Find("PlayPause").gameObject.GetComponent<Button>();
         mainMenu = gameObject.transform.Find("MainMenu").gameObject;
         gameplay = gameObject.transform.Find("Gameplay").gameObject;
         pauseMenu = gameObject.transform.Find("PauseMenu").gameObject;
@@ -35,10 +34,12 @@ public class UI : MonoBehaviour
     }
 
     void Update(){
-        scoreText.text = GameController.score.ToString();
+        scoreTextGameplay.text = GameController.score.ToString();
+        scoreTextPause.text = GameController.score.ToString();
     }
 
     private void displayMainMenu(){
+        logo.SetActive(true);
         mainMenu.SetActive(true);
         gameplay.SetActive(false);
         pauseMenu.SetActive(false);
@@ -46,6 +47,7 @@ public class UI : MonoBehaviour
     }
 
     private void displayGameplay(){
+        logo.SetActive(false);
         mainMenu.SetActive(false);
         gameplay.SetActive(true);
         pauseMenu.SetActive(false);
@@ -53,25 +55,35 @@ public class UI : MonoBehaviour
     }
 
     private void displayPauseMenu(){
-        mainMenu.SetActive(false);
-        gameplay.SetActive(false);
-        pauseMenu.SetActive(true);
-        gameOverMenu.SetActive(false);
+        if(!GameController.gameOver){
+            logo.SetActive(false);
+            mainMenu.SetActive(false);
+            gameplay.SetActive(false);
+            pauseMenu.SetActive(true);
+            gameOverMenu.SetActive(false);
+        }
     }
     
     private void displayGameOverMenu(){
+        logo.SetActive(false);
         mainMenu.SetActive(false);
         gameplay.SetActive(false);
         pauseMenu.SetActive(false);
         gameOverMenu.SetActive(true);
     }
 
-    public void playPauseBtn(){
-        if(GameController.pause){
+    public void playBtn(){
+        if(!GameController.gameOver){
             GameEvents.current.ResumeGame();
-        }else{
-            GameEvents.current.PauseGame();
         }
+    }
+
+    public void pauseBtn(){
+        GameEvents.current.PauseGame();
+    }
+
+    public void clickAnywhereImage(){
+        GameEvents.current.Click();
     }
 
 }

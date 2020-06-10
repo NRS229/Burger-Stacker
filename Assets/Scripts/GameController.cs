@@ -8,11 +8,12 @@ public class GameController : MonoBehaviour
     public static bool pause;
     public static bool introStarted;
     public static bool gameStarted;
+    public static bool gameOver;
     //Cameras
     public GameObject menuCamera;
     public GameObject gameplayCamera;
     //Instantiation
-    float instantiateY = -3.6f;
+    float instantiateY = -3.5f;
     private GameObject nextTopping;
     public GameObject newToppingPrefab;
     public Sprite[] toppingSprites;
@@ -99,8 +100,10 @@ public class GameController : MonoBehaviour
     }
 
     private void OnGameOver(){
+        gameOver = true;
         GameEvents.current.PauseGame();
         if(score > PlayerPrefs.GetInt("Hishscore", 0)){
+            //New Highscore
             PlayerPrefs.SetInt("Hishscore", score);
         }
     }

@@ -9,6 +9,7 @@ public class Buns : MonoBehaviour
     public Rigidbody2D rbMeat;
     public Rigidbody2D rbBunDown;
     //Bools
+    private bool click;
     private bool jumpToGrill;
     private bool jump;
     private bool isAligned;
@@ -19,15 +20,17 @@ public class Buns : MonoBehaviour
     {
         //Subscribe to events
         GameEvents.current.onInstantiateTopping += OnInstantiateTopping;
+        GameEvents.current.onClick += OnClick;
         //Initiate bools
         isAligned = false;
         hasCollectedTopping = false;
+        click = false;
     }
 
     // Update is for input
     void Update(){
         //Detect a touch
-        if (Input.touchCount > 0 || Input.GetKeyDown("space")){
+        if (click || Input.GetKeyDown("space")){
             //First touch
             if(!GameController.introStarted){
                 //Start the intro
@@ -37,10 +40,12 @@ public class Buns : MonoBehaviour
                 //Unpause game
                 GameEvents.current.ResumeGame();
             }else{
-                if(isUpperBunTouchingTopping){
+                if(isUpperBunTouchingTopping && !GameController.pause){
                     jump = true;
                 }
             }
+            //Reset click
+            click = false;
         }
     }
 
@@ -49,18 +54,18 @@ public class Buns : MonoBehaviour
     {
         if(jumpToGrill){
             //Burger jumps to grill
-            rbBunUp.AddForce(new Vector2(-100f, 300));
-            rbMeat.AddForce(new Vector2(-101f, 300));            
-            rbBunDown.AddForce(new Vector2(-102f, 300));
+            rbBunUp.AddForce(new Vector2(-2f, 6f), ForceMode2D.Impulse);
+            rbMeat.AddForce(new Vector2(-2.02f, 6f), ForceMode2D.Impulse);            
+            rbBunDown.AddForce(new Vector2(-2.04f, 6f), ForceMode2D.Impulse);
             //Reset jumpToGrill
             jumpToGrill = false;
         }
         if(jump){
             // Add a vertical force (Jump)
-            rbBunUp.AddForce(new Vector2(0.0f, 220f));
+            rbBunUp.AddForce(transform.up * 5f, ForceMode2D.Impulse);
             if(!hasCollectedTopping){
-                rbMeat.AddForce(new Vector2(0.0f, 120f));
-                rbBunDown.AddForce(new Vector2(0.0f, 100f));
+                rbMeat.AddForce(transform.up * 2.5f, ForceMode2D.Impulse);
+                rbBunDown.AddForce(transform.up * 2f, ForceMode2D.Impulse);
             }
             //Reset jump
             jump = false;
@@ -76,6 +81,10 @@ public class Buns : MonoBehaviour
 
     private void OnInstantiateTopping(){
         hasCollectedTopping = true;
+    }
+
+    private void OnClick(){
+        click = true;
     }
 
 }
