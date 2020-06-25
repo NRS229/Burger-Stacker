@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -18,7 +19,7 @@ public class GameController : MonoBehaviour
     public GameObject newToppingPrefab;
     public Sprite[] toppingSprites;
     //Score
-    public static int score = 0;
+    public static int score;
 
 
     void Start()
@@ -31,10 +32,21 @@ public class GameController : MonoBehaviour
         GameEvents.current.onInstantiateTopping += OnInstantiateTopping;
         GameEvents.current.onGameOver += OnGameOver;
         GameEvents.current.onIncreaseScore += OnIncreaseScore;
+        GameEvents.current.onGoToMenu += OnGoToMenu;
+        GameEvents.current.onPlayAgain += OnPlayAgain;
         //Initializing bools
         pause = true;
         introStarted = false;
         gameStarted = false;
+        //Initializing score
+        score = 0;
+        //PlayAgain
+        if(PlayerPrefs.GetInt("PlayAgain", 0) == 1){
+            introStarted = true;
+            pause = false;
+            GameEvents.current.PlayAgainSetup();
+            PlayerPrefs.SetInt("PlayAgain", 0);
+        }
     }
 
     void Update()
@@ -44,6 +56,12 @@ public class GameController : MonoBehaviour
         }else{
             Time.timeScale = 1f;
         }
+    }
+
+    private void changeCamera(){
+        //Change cameras
+        menuCamera.SetActive(!menuCamera.activeSelf);
+        gameplayCamera.SetActive(!gameplayCamera.activeSelf);
     }
 
     private void OnStartGame(){
@@ -72,7 +90,7 @@ public class GameController : MonoBehaviour
         float instantiateX = Random.Range(3, 8);
         instantiateY +=0.283810716f; //Boxcollider y * Scale y
         //Instantiation
-        nextTopping = Instantiate(newToppingPrefab, new Vector2(instantiateX, instantiateY), Quaternion.identity) as GameObject;
+        nextTopping = Instantiate(newToppingPrefab, new Vector3(instantiateX, instantiateY, 1f), Quaternion.identity) as GameObject;
         //Randomize the topping sprite
         int nextToppingSpriteRandom = Random.Range(1, 5);
         switch (nextToppingSpriteRandom)
@@ -105,6 +123,7 @@ public class GameController : MonoBehaviour
         if(score > PlayerPrefs.GetInt("Hishscore", 0)){
             //New Highscore
             PlayerPrefs.SetInt("Hishscore", score);
+            GameEvents.current.NewHighscore(score);
         }
     }
 
@@ -112,10 +131,13 @@ public class GameController : MonoBehaviour
         score += 1;
     }
 
-    private void changeCamera(){
-        //Change cameras
-        menuCamera.SetActive(!menuCamera.activeSelf);
-        gameplayCamera.SetActive(!gameplayCamera.activeSelf);
+    private void OnGoToMenu(){
+        SceneManager.LoadScene("Game");   
+    }
+
+    private void OnPlayAgain(){
+        PlayerPrefs.SetInt("PlayAgain", 1);
+        SceneManager.LoadScene("Game");
     }
 
 }

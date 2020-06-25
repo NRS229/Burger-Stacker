@@ -15,16 +15,26 @@ public class Buns : MonoBehaviour
     private bool isAligned;
     private bool hasCollectedTopping;
     public static bool isUpperBunTouchingTopping;
+    //Burger parts transform
+    public Transform UpperBun;
+    public Transform FirstMeat;
+    public Transform LowerBun;
 
     void Start()
     {
         //Subscribe to events
         GameEvents.current.onInstantiateTopping += OnInstantiateTopping;
         GameEvents.current.onClick += OnClick;
+        GameEvents.current.onPlayAgainSetup += OnPlayAgainSetup;
         //Initiate bools
         isAligned = false;
         hasCollectedTopping = false;
         click = false;
+        //Detect burger parts transform
+        UpperBun = transform.GetChild(0);
+        FirstMeat = transform.GetChild(1);
+        LowerBun = transform.GetChild(2);
+
     }
 
     // Update is for input
@@ -72,8 +82,8 @@ public class Buns : MonoBehaviour
 
             if(!isAligned){
                 //Align burger
-                transform.GetChild(0).transform.position = new Vector3(transform.GetChild(2).position.x, transform.GetChild(0).position.y, transform.GetChild(0).position.z);
-                transform.GetChild(1).transform.position = new Vector3(transform.GetChild(2).position.x, transform.GetChild(1).position.y, transform.GetChild(1).position.z);
+                UpperBun.transform.position = new Vector3(LowerBun.position.x, UpperBun.position.y, 1f);
+                FirstMeat.transform.position = new Vector3(LowerBun.position.x, FirstMeat.position.y, 1f);
                 isAligned = true;
             }
         }
@@ -85,6 +95,12 @@ public class Buns : MonoBehaviour
 
     private void OnClick(){
         click = true;
+    }
+
+    private void OnPlayAgainSetup(){
+        UpperBun.transform.position = new Vector3(-2.4f, -2f, 1f);
+        FirstMeat.transform.position = new Vector3(-2.4f, -2.5f, 1f);
+        LowerBun.transform.position = new Vector3(-2.4f, -3f, 1f);
     }
 
 }

@@ -11,11 +11,14 @@ public class UI : MonoBehaviour
     private GameObject gameplay;
     private GameObject pauseMenu;
     private GameObject gameOverMenu;
+    private GameObject gameOver_NoHighscore;
+    private GameObject gameOver_Highscore;
     //Score
     public Text scoreTextGameplay;
     public Text scoreTextPause;
-    public Text highScoreText;
-
+    public Text scoreTextGameOver;
+    public Text highScoreTextMainMenu;
+    public Text highScoreTextGameOver;
 
     void Start()
     {
@@ -24,18 +27,23 @@ public class UI : MonoBehaviour
         GameEvents.current.onPauseGame += displayPauseMenu;
         GameEvents.current.onResumeGame += displayGameplay;
         GameEvents.current.onGameOver += displayGameOverMenu;
+        GameEvents.current.onNewHighscore+= OnNewHighscore;
+        GameEvents.current.onPlayAgainSetup += displayGameplay;
         //Set the GameObjects
         mainMenu = gameObject.transform.Find("MainMenu").gameObject;
         gameplay = gameObject.transform.Find("Gameplay").gameObject;
         pauseMenu = gameObject.transform.Find("PauseMenu").gameObject;
         gameOverMenu = gameObject.transform.Find("GameOverMenu").gameObject;
+        gameOver_NoHighscore = gameOverMenu.transform.Find("NoNewHighscore").gameObject;
+        gameOver_Highscore = gameOverMenu.transform.Find("NewHighscore").gameObject;
         //Set the highscore
-        highScoreText.text = PlayerPrefs.GetInt("Hishscore", 0).ToString();
+        highScoreTextMainMenu.text = PlayerPrefs.GetInt("Hishscore", 0).ToString();
     }
 
     void Update(){
         scoreTextGameplay.text = GameController.score.ToString();
         scoreTextPause.text = GameController.score.ToString();
+        scoreTextGameOver.text = GameController.score.ToString();
     }
 
     private void displayMainMenu(){
@@ -70,6 +78,17 @@ public class UI : MonoBehaviour
         gameplay.SetActive(false);
         pauseMenu.SetActive(false);
         gameOverMenu.SetActive(true);
+        gameOver_NoHighscore.SetActive(true);
+        gameOver_Highscore.SetActive(false);
+    }
+
+    private void OnNewHighscore(int number){
+        //Update the highscore
+        highScoreTextGameOver.text = PlayerPrefs.GetInt("Hishscore", 0).ToString();
+        highScoreTextMainMenu.text = PlayerPrefs.GetInt("Hishscore", 0).ToString();
+        //Show the new highscore UI
+        gameOver_NoHighscore.SetActive(false);
+        gameOver_Highscore.SetActive(true);
     }
 
     public void playBtn(){
@@ -80,6 +99,20 @@ public class UI : MonoBehaviour
 
     public void pauseBtn(){
         GameEvents.current.PauseGame();
+    }
+
+    public void playAgainBtn(){
+        GameEvents.current.PlayAgain();
+    }
+
+    public void menuBtn(){
+        GameEvents.current.GoToMenu();
+    }
+
+    public void resetHighscoreBtn(){
+        PlayerPrefs.DeleteKey("Hishscore");
+        highScoreTextGameOver.text = PlayerPrefs.GetInt("Hishscore", 0).ToString();
+        highScoreTextMainMenu.text = PlayerPrefs.GetInt("Hishscore", 0).ToString();
     }
 
     public void clickAnywhereImage(){

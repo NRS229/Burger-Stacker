@@ -75,4 +75,36 @@ public class GameEvents : MonoBehaviour
         }
     }
 
+    //Event onNewHighscore
+    public event Action<int> onNewHighscore;
+    public void NewHighscore(int number){
+        if(onNewHighscore != null){
+            onNewHighscore(number);
+        }
+    }
+
+    //Event onGoToMenu
+    public event Action onGoToMenu;
+    public void GoToMenu(){
+        if(onGoToMenu != null){
+            onGoToMenu();
+        }
+    }
+
+    //Event onPlayAgain
+    public event Action onPlayAgain;
+    public void PlayAgain(){
+        if(onPlayAgain != null){
+            onPlayAgain();
+        }
+    }
+
+    //Event onPlayAgainSetup
+    public event Action onPlayAgainSetup;
+    public void PlayAgainSetup(){
+        if(onPlayAgainSetup != null){
+            onPlayAgainSetup();
+        }
+    }
+
 }
