@@ -27,22 +27,6 @@ public class GameEvents : MonoBehaviour
         }
     }
 
-    //Event onPauseGame
-    public event Action onPauseGame;
-    public void PauseGame(){
-        if(onPauseGame != null){
-            onPauseGame();
-        }
-    }
-
-    //Event onResumeGame
-    public event Action onResumeGame;
-    public void ResumeGame(){
-        if(onResumeGame != null){
-            onResumeGame();
-        }
-    }
-
     //Event onStartIntro
     public event Action onStartIntro;
     public void StartIntro(){

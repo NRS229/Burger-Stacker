@@ -21,14 +21,11 @@ public class GameController : MonoBehaviour
     //Score
     public static int score;
 
-
     void Start()
     {
         //Subscribe to events
         GameEvents.current.onStartGame  += OnStartGame;
         GameEvents.current.onStartIntro += OnStartIntro;
-        GameEvents.current.onPauseGame  += OnPauseGame;
-        GameEvents.current.onResumeGame += OnResumeGame;
         GameEvents.current.onInstantiateTopping += OnInstantiateTopping;
         GameEvents.current.onGameOver += OnGameOver;
         GameEvents.current.onIncreaseScore += OnIncreaseScore;
@@ -73,14 +70,6 @@ public class GameController : MonoBehaviour
         }
     }
 
-    private void OnPauseGame(){
-        pause=true;
-    }
-
-    private void OnResumeGame(){
-        pause=false;
-    }
-
     private void OnStartIntro(){
         introStarted = true;
     }
@@ -119,7 +108,6 @@ public class GameController : MonoBehaviour
 
     private void OnGameOver(){
         gameOver = true;
-        GameEvents.current.PauseGame();
         if(score > PlayerPrefs.GetInt("Hishscore", 0)){
             //New Highscore
             PlayerPrefs.SetInt("Hishscore", score);
