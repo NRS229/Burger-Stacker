@@ -3177,6 +3177,7 @@ GameObject:
   - component: {fileID: 1355347566}
   - component: {fileID: 1355347567}
   - component: {fileID: 1355347568}
+  - component: {fileID: 1355347569}
   m_Layer: 0
   m_Name: UpperBun
   m_TagString: Bun
@@ -3244,8 +3245,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 1.84, y: 5.57, z: 1}
   m_LocalScale: {x: 0.067959495, y: 0.026278771, z: 0.08485095}
-  m_Children:
-  - {fileID: 1577075409}
+  m_Children: []
   m_Father: {fileID: 1731549981}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3308,10 +3308,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 569d9661d4b784735a3083556d0477e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DownCheck: {fileID: 1577075409}
-  WhatIsDownLayer:
-    serializedVersion: 2
-    m_Bits: 4294967295
+--- !u!68 &1355347569
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1355347563}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 5.5}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: -9.600001, y: 0}
+  - {x: 9.600001, y: 0}
 --- !u!1 &1433886348
 GameObject:
   m_ObjectHideFlags: 0
@@ -3512,36 +3526,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &1577075408
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1577075409}
-  m_Layer: 0
-  m_Name: DownCheck
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1577075409
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1577075408}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -7, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1355347565}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1585804756
 GameObject:
   m_ObjectHideFlags: 0
@@ -4457,6 +4441,9 @@ MonoBehaviour:
   rbBunUp: {fileID: 1355347566}
   rbMeat: {fileID: 174490527}
   rbBunDown: {fileID: 1334272317}
+  UpperBun: {fileID: 0}
+  FirstMeat: {fileID: 0}
+  LowerBun: {fileID: 0}
 --- !u!1001 &1738656085
 PrefabInstance:
   m_ObjectHideFlags: 0
