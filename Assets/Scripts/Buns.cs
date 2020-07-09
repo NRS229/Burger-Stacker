@@ -16,9 +16,9 @@ public class Buns : MonoBehaviour
     private bool hasCollectedTopping;
     public static bool isUpperBunTouchingTopping;
     //Burger parts transform
-    public Transform UpperBun;
-    public Transform FirstMeat;
-    public Transform LowerBun;
+    private Transform UpperBun;
+    private Transform FirstMeat;
+    private Transform LowerBun;
 
     void Start()
     {
@@ -48,7 +48,7 @@ public class Buns : MonoBehaviour
                 //Burger jumps to grill
                 jumpToGrill = true;
                 //Unpause game
-                GameEvents.current.ResumeGame();
+                GameController.pause = false;
             }else{
                 if(isUpperBunTouchingTopping && !GameController.pause){
                     jump = true;

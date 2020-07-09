@@ -24,8 +24,6 @@ public class UI : MonoBehaviour
     {
         //Subscribe to events
         GameEvents.current.onStartIntro += displayGameplay;
-        GameEvents.current.onPauseGame += displayPauseMenu;
-        GameEvents.current.onResumeGame += displayGameplay;
         GameEvents.current.onGameOver += displayGameOverMenu;
         GameEvents.current.onNewHighscore+= OnNewHighscore;
         GameEvents.current.onPlayAgainSetup += displayGameplay;
@@ -63,16 +61,16 @@ public class UI : MonoBehaviour
     }
 
     private void displayPauseMenu(){
-        if(!GameController.gameOver){
-            logo.SetActive(false);
-            mainMenu.SetActive(false);
-            gameplay.SetActive(false);
-            pauseMenu.SetActive(true);
-            gameOverMenu.SetActive(false);
-        }
+        logo.SetActive(false);
+        mainMenu.SetActive(false);
+        gameplay.SetActive(false);
+        pauseMenu.SetActive(true);
+        gameOverMenu.SetActive(false);
     }
     
     private void displayGameOverMenu(){
+        //Pause the game first
+        GameController.pause = true;
         logo.SetActive(false);
         mainMenu.SetActive(false);
         gameplay.SetActive(false);
@@ -93,12 +91,14 @@ public class UI : MonoBehaviour
 
     public void playBtn(){
         if(!GameController.gameOver){
-            GameEvents.current.ResumeGame();
+            GameController.pause = false;
+            displayGameplay();
         }
     }
 
     public void pauseBtn(){
-        GameEvents.current.PauseGame();
+        GameController.pause = true;
+        displayPauseMenu();
     }
 
     public void playAgainBtn(){
